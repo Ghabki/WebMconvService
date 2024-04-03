@@ -45,6 +45,7 @@ To uninstall the service
 
 ## Additional notes
 - Files are converted one by one, ensuring accuracy and speed.
+- Only files that are less then 5min old will be picked up by the service.
 - The original files are removed post-conversion, maintaining a clutter-free environment.
 - Checks are conducted every 60 seconds. If a file is detected for conversion, subsequent runs are accelerated until completion, reverting to the standard 60-second interval thereafter.
 - Disclaimer: Please note that I am not liable for any consequences resulting from the execution of this code.
