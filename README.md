@@ -24,21 +24,21 @@ This application is crafted in Go and requires minimal setup. Follow these steps
 ## Usage/Examples
 Execute the service for a one-time run without installation (optional):
 ```powershell
-filename.exe run
+<filename.exe> run
 ```
 
 Install the service. Remember to start it post-installation:
 
 ```powershell
-filename.exe install
+<filename.exe> install
 ```
 ```powershell
-filename.exe start
+<filename.exe> start
 ```
 
 To uninstall the service
 ```powershell
-filename.exe uninstall
+<filename.exe> uninstall
 ```
 
 
