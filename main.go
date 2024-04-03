@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/user"
 	"path/filepath"
 	"time"
 
@@ -83,11 +84,21 @@ func main() {
 
 // Main function to run the service
 func (p *program) run() {
-	downloadFolderPath := "C:/Users/utenk/Downloads"
-	FolderPath := "C:/Users/utenk/Desktop/WebmVideos"
-	ProcessFolder := "C:/Users/utenk/Downloads/ProcessWEBM"
+	currentUser, err := user.Current()
 
-	err := checkFolder(ProcessFolder)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	desktopPath := filepath.Join(currentUser.HomeDir, "Desktop")
+	DPath := filepath.Join(currentUser.HomeDir, "Downloads")
+
+	downloadFolderPath := DPath
+	FolderPath := filepath.Join(desktopPath, "WebmVideos")
+	ProcessFolder := filepath.Join(DPath, "ProcessWEBM")
+
+	err = checkFolder(ProcessFolder)
 	err1 := checkFolder(FolderPath)
 
 	if err != nil || err1 != nil {
