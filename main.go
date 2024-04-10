@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"os/user"
@@ -159,6 +160,20 @@ func processMP4Files(folderPath string, outputFolderPath string, proccessFolder 
 	mp4file := filepath.Join(folderPath, latestMp4File)
 	mp4NewFolder := filepath.Join(proccessFolder, latestMp4File)
 
+	err = checkSizeFile(mp4file)
+	if err != nil {
+		fmt.Println(mp4file, mp4NewFolder)
+		bigFile := "BIGFILE" + latestMp4File
+		mp4NewFolder := filepath.Join(proccessFolder, bigFile)
+		err = os.Rename(mp4file, mp4NewFolder)
+		if err != nil {
+			fmt.Println("Error:", err)
+			return 10, err
+		}
+
+		return 60, nil
+	}
+
 	fmt.Println(mp4file, mp4NewFolder)
 	err = os.Rename(mp4file, mp4NewFolder)
 	if err != nil {
@@ -204,4 +219,20 @@ func convertToWebM(inputFilePath string, outputFolderPath string) error {
 	fmt.Println("File converted successfully:", inputFilePath, " to ", fileName)
 	os.Remove(inputFilePath)
 	return nil
+}
+
+func checkSizeFile(filePath string) error {
+	fileInfo, err := os.Stat(filePath)
+	if err != nil {
+		fmt.Println("Error getting file info:", err)
+		return err
+	}
+
+	// Check if the file size is larger than 50MB
+	fileSize := fileInfo.Size()
+	if fileSize > 50*1024*1024 { // 50MB in bytes
+		return errors.New("file to big")
+	} else {
+		return nil
+	}
 }
